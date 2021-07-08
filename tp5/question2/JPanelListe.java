@@ -3,7 +3,6 @@ package question2;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -11,7 +10,8 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Map;
 
-public class JPanelListe extends JPanel implements ActionListener, ItemListener {
+public class JPanelListe extends JPanel implements ActionListener, ItemListener 
+{
 
     private JPanel cmd = new JPanel();
     private JLabel afficheur = new JLabel();
@@ -63,7 +63,10 @@ public class JPanelListe extends JPanel implements ActionListener, ItemListener 
         add(texte, "Center");
 
         boutonRechercher.addActionListener(this);
-        // à compléter;
+        boutonRetirer.addActionListener(this);
+        boutonOccurrences.addActionListener(this);
+        ordreCroissant.addItemListener(this);
+        ordreDecroissant.addItemListener(this);
 
     }
 
@@ -93,20 +96,29 @@ public class JPanelListe extends JPanel implements ActionListener, ItemListener 
         }
     }
 
-    public void itemStateChanged(ItemEvent ie) {
-        if (ie.getSource() == ordreCroissant)
-            ;// à compléter
+    public void itemStateChanged(ItemEvent ie)
+    {
+          if (ie.getSource() == ordreCroissant)
+            Collections.sort(this.liste);
         else if (ie.getSource() == ordreDecroissant)
-            ;// à compléter
-
+            Collections.sort(this.liste, Collections.reverseOrder());
         texte.setText(liste.toString());
     }
 
-    private boolean retirerDeLaListeTousLesElementsCommencantPar(String prefixe) {
+    private boolean retirerDeLaListeTousLesElementsCommencantPar(String prefixe) 
+    {
         boolean resultat = false;
-        // à compléter
-        // à compléter
-        // à compléter
+        Iterator<String> iter = this.liste.iterator();
+        while(iter.hasNext()) 
+        {
+            String s = iter.next();
+            if (s.startsWith(prefixe))
+            {
+                iter.remove();
+                resultat = true;
+                this.occurrences.put(s, 0);
+            }
+        }
         return resultat;
     }
 
